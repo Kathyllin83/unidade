@@ -1,16 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
-
-// Importe os novos componentes do Carrossel
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "@/components/ui/carousel"; // Caminho gerado pelo shadcn/ui
-
-// --- ESTA PARTE É O "BACKEND" ---
-// (Sem alterações aqui, continua igual)
+} from "@/components/ui/carousel";
 
 type Event = {
   id: string;
@@ -26,7 +21,6 @@ async function getEvents() {
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  // Nota: Nós ainda buscamos featuredEvents aqui, mas não vamos usá-los no carrossel.
   const { data: featuredEvents, error: featuredError } = await supabase
     .from("events")
     .select("*")
@@ -56,41 +50,37 @@ async function getEvents() {
   };
 }
 
-// --- ESTA PARTE É O "FRONTEND" (Com o novo Carrossel) ---
+// Mapa de categorias para imagens locais
+const categoryImages: Record<string, string> = {
+  Festividades: "/img/evento1.png",
+  "Eventos Esportivos": "/img/evento1.png",
+  "Palestras e Oficcinas": "/img/evento2.png",
+  "Feira de Ciências": "/img/evento3.png",
+};
 
 export default async function HomePage() {
-  // Nós ainda pegamos os dados, mas só usaremos categoryEvents e categories
   const { categoryEvents, categories } = await getEvents();
 
-  // ==========================================================
-  // AJUSTE: Array de imagens locais da pasta /public
-  // MUDE A EXTENSÃO (.png, .jpg) SE NECESSÁRIO!
-  // ==========================================================
+  // Destaques fixos com imagens locais
   const featuredImages = [
-    { id: "img1", path: "img/img1.png", title: "Evento 1" },
-    { id: "img2", path: "img/img2.png", title: "Evento 2" },
-    { id: "img3", path: "img/img3.png", title: "Evento 3" },
-    { id: "img4", path: "img/img4.png", title: "Evento 4" },
+    { id: "img1", path: "/img/img1.png", title: "Evento 1" },
+    { id: "img2", path: "/img/img2.png", title: "Evento 2" },
+    { id: "img3", path: "/img/img3.png", title: "Evento 3" },
+    { id: "img4", path: "/img/img4.png", title: "Evento 4" },
   ];
-  // ==========================================================
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Header Fixo (sticky) */}
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-          {/* ========================================================== */}
-          {/* AJUSTE: Trocando o texto "unidade" pela logo.png */}
-          {/* ========================================================== */}
-          <a href="/ " className="flex items-center">
+          <a href="/" className="flex items-center">
             <img
-              src="/logo.png"
+              src="/img/logo.png"
               alt="Logo Unidade"
-              className="h-8 w-auto" // h-8 = 2rem = 32px. Ajuste a altura se necessário.
+              className="h-8 w-auto"
             />
           </a>
-          {/* ========================================================== */}
-
           <div className="flex items-center space-x-4">
             <a href="#" className="text-gray-600 hover:text-blue-600">
               Início
@@ -108,23 +98,13 @@ export default async function HomePage() {
         </nav>
       </header>
 
-      {/* Conteúdo da Página Principal */}
       <main className="py-12">
-        {/* ========================================================== */}
-        {/* AJUSTE: Seção Destaques agora usa o array local 'featuredImages' */}
-        {/* ========================================================== */}
-
+        {/* Seção Destaques */}
         <section className="mb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-6 text-center">Destaques</h2>
           </div>
-
-          {/* AJUSTE: Removido o 'relative' daqui */}
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {/* AJUSTE: As duas 'div's de gradiente que estavam aqui
-              foram REMOVIDAS.
-            */}
-
             <Carousel
               opts={{
                 align: "center",
@@ -133,7 +113,6 @@ export default async function HomePage() {
               className="w-full"
             >
               <CarouselContent className="-ml-4">
-                {/* MUDANÇA AQUI: Trocamos 'featuredEvents.map' por 'featuredImages.map' */}
                 {featuredImages.map((image) => (
                   <CarouselItem
                     key={image.id}
@@ -142,27 +121,20 @@ export default async function HomePage() {
                     <div className="p-1">
                       <div
                         className="h-64 lg:h-80 rounded-xl bg-cover bg-center shadow-lg"
-                        // MUDANÇA AQUI: Usamos 'image.path'
                         style={{ backgroundImage: `url(${image.path})` }}
                         title={image.title}
-                      >
-                        {/* Imagem do evento */}
-                      </div>
+                      />
                     </div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              {/* AJUSTE: Removido o 'z-20' */}
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
           </div>
         </section>
 
-        {/* ========================================================== */}
-        {/* O restante da página continua igual e usa Supabase */}
-        {/* ========================================================== */}
-
+        {/* Seção Categorias */}
         <section className="mb-16 container mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold mb-6 text-center">
             Navegue por categoria
@@ -179,33 +151,42 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Seção Eventos por Categoria */}
         <section className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* ESTA PARTE AINDA USA O SUPABASE */}
-            {categoryEvents.map((event) => (
-              <div
-                key={event.id}
-                className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-              >
-                <img
-                  src={
-                    event.image_url ||
-                    "https://via.placeholder.com/400x200.png?text=Evento"
-                  }
-                  alt={event.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {event.description}
-                  </p>
-                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                    {event.category}
-                  </span>
+            {categoryEvents.map((event) => {
+              const localImage = event.category
+                ? categoryImages[event.category]
+                : null;
+
+              return (
+                <div
+                  key={event.id}
+                  className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <img
+                    src={
+                      localImage ||
+                      event.image_url ||
+                      "https://via.placeholder.com/400x200.png?text=Evento"
+                    }
+                    alt={event.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-xl font-semibold mb-2">
+                      {event.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {event.description}
+                    </p>
+                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                      {event.category}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </main>
