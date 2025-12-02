@@ -89,7 +89,13 @@ export default async function HomePage() {
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
           <Link href="/" className="flex items-center">
-            <Image src="/img/logo.png" alt="Logo" width={32} height={32} className="h-8 w-auto" />
+            <Image
+              src="/img/logo.png"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="h-8 w-auto"
+            />
           </Link>
 
           <div className="flex items-center space-x-4">

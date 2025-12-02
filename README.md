@@ -29,7 +29,7 @@ Plataforma web para gestão escolar desenvolvida com Next.js 16, React 18, Tailw
 
 ## 📋 Pré-requisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - npm ou yarn
 - Conta no Supabase
 - Conta na Vercel (para deploy)
@@ -37,12 +37,14 @@ Plataforma web para gestão escolar desenvolvida com Next.js 16, React 18, Tailw
 ## 🔧 Instalação
 
 1. **Clone o repositório**
+
 ```bash
 git clone https://github.com/Kathyllin83/unidade.git
 cd unidade
 ```
 
 2. **Instale as dependências**
+
 ```bash
 npm install
 ```
@@ -58,6 +60,7 @@ SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
 ```
 
 4. **Execute o projeto**
+
 ```bash
 npm run dev
 ```
@@ -101,6 +104,7 @@ unidade/
 ### Deploy na Vercel (Recomendado)
 
 1. **Via CLI:**
+
 ```bash
 npm install -g vercel
 vercel login
@@ -108,6 +112,7 @@ vercel --prod
 ```
 
 2. **Via GitHub:**
+
 - Conecte seu repositório na [Vercel](https://vercel.com)
 - Configure as variáveis de ambiente
 - Deploy automático a cada push
@@ -115,6 +120,7 @@ vercel --prod
 ### Variáveis de Ambiente na Vercel
 
 Adicione em Settings > Environment Variables:
+
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
@@ -160,10 +166,10 @@ Este projeto está sob a licença MIT.
 ## 📞 Suporte
 
 Para dúvidas ou suporte:
+
 - Abra uma [issue](https://github.com/Kathyllin83/unidade/issues)
 - Entre em contato via GitHub
 
 ---
 
 Feito com ❤️ usando Next.js e Supabase
-
