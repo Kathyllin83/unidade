@@ -20,6 +20,7 @@ SUPABASE_SERVICE_ROLE_KEY=seu_service_role_key
 ## Comandos úteis:
 
 ### Vercel:
+
 ```bash
 vercel login          # Login
 vercel                # Deploy preview
@@ -28,6 +29,7 @@ vercel env add        # Adicionar variável de ambiente
 ```
 
 ### Servidor próprio:
+
 ```bash
 npm run build         # Build
 npm start             # Iniciar
@@ -39,6 +41,7 @@ pm2 restart unidade   # Reiniciar
 ## Domínio personalizado:
 
 ### Na Vercel:
+
 1. Vá em Settings > Domains
 2. Adicione seu domínio
 3. Configure o DNS conforme instruções
