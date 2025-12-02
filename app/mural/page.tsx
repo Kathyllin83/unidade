@@ -59,82 +59,94 @@ export default function MuralPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* SIDEBAR */}
-      <aside className="w-60 bg-[#3CA4C8] p-4 text-white flex flex-col gap-4">
-        <h1 className="text-xl font-bold mb-4">Menu</h1>
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      {/* SIDEBAR - Mobile Menu */}
+      <aside className="w-full lg:w-60 bg-[#3CA4C8] p-4 text-white">
+        <div className="flex flex-col gap-3">
+          <h1 className="text-lg sm:text-xl font-bold mb-2 lg:mb-4">Menu</h1>
 
-        <Link href="/mural">
-          <button className="bg-[#1CA0C6] p-3 rounded-lg text-left font-semibold w-full">
-            Mural
-          </button>
-        </Link>
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 lg:gap-3">
+            <Link href="/mural">
+              <button className="bg-[#1CA0C6] p-2.5 sm:p-3 rounded-lg text-left font-semibold w-full text-sm sm:text-base">
+                Mural
+              </button>
+            </Link>
 
-        <Link href="/calendario">
-          <button className="bg-[#2F8AAA] p-3 rounded-lg text-left w-full">
-            Calendário
-          </button>
-        </Link>
+            <Link href="/calendario">
+              <button className="bg-[#2F8AAA] p-2.5 sm:p-3 rounded-lg text-left w-full text-sm sm:text-base hover:bg-[#1CA0C6] transition-colors">
+                Calendário
+              </button>
+            </Link>
 
-        <button className="bg-[#2F8AAA] p-3 rounded-lg text-left w-full">
-          Quadro de Horários
-        </button>
+            <Link href="/faltas">
+              <button className="bg-[#2F8AAA] p-2.5 sm:p-3 rounded-lg text-left w-full text-sm sm:text-base hover:bg-[#1CA0C6] transition-colors">
+                Faltas
+              </button>
+            </Link>
 
-        <button className="bg-[#2F8AAA] p-3 rounded-lg text-left w-full">
-          Opção
-        </button>
+            <Link href="/notas">
+              <button className="bg-[#2F8AAA] p-2.5 sm:p-3 rounded-lg text-left w-full text-sm sm:text-base hover:bg-[#1CA0C6] transition-colors">
+                Notas
+              </button>
+            </Link>
 
-        <div className="mt-6">
-          <h2 className="text-sm uppercase opacity-80">Central do aluno</h2>
+            <button className="bg-[#2F8AAA] p-2.5 sm:p-3 rounded-lg text-left w-full text-sm sm:text-base hover:bg-[#1CA0C6] transition-colors">
+              Quadro de Horários
+            </button>
+
+            <button className="bg-[#2F8AAA] p-2.5 sm:p-3 rounded-lg text-left w-full text-sm sm:text-base hover:bg-[#1CA0C6] transition-colors">
+              Opção
+            </button>
+          </div>
+
+          <div className="mt-3 lg:mt-6 hidden lg:block">
+            <h2 className="text-xs sm:text-sm uppercase opacity-80">
+              Central do aluno
+            </h2>
+          </div>
         </div>
-
-        <button className="bg-[#2F8AAA] p-3 rounded-lg text-left w-full">
-          Faltas
-        </button>
-
-        <button className="bg-[#2F8AAA] p-3 rounded-lg text-left w-full">
-          Notas
-        </button>
       </aside>
 
       {/* CONTEÚDO */}
-      <main className="flex-1 p-10">
+      <main className="flex-1 p-4 sm:p-6 lg:p-10">
         {/* Topo com usuário */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">Mural</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold">Mural</h1>
 
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-gray-300 rounded-full"></div>
-            <span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-300 rounded-full"></div>
+            <span className="text-sm sm:text-base">
               Olá, <strong>{userName}</strong>
             </span>
           </div>
         </div>
 
         {/* BOTÃO NOVO AVISO */}
-        <div className="flex justify-end mb-6">
+        <div className="flex justify-end mb-4 sm:mb-6">
           <button
             onClick={() => setOpen(true)}
-            className="bg-[#1CA0C6] hover:bg-[#1785a5] text-white px-5 py-2 rounded-lg shadow transition"
+            className="bg-[#1CA0C6] hover:bg-[#1785a5] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg shadow transition text-sm sm:text-base touch-manipulation"
           >
             + Novo Aviso
           </button>
         </div>
 
         {/* LISTA DE AVISOS */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {posts.map((post) => (
             <motion.div
               key={post.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="bg-white border border-gray-300 rounded-xl p-5 shadow-sm hover:shadow-md transition">
-                <h2 className="text-xl font-semibold text-[#1CA0C6]">
+              <div className="bg-white border border-gray-300 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition">
+                <h2 className="text-base sm:text-xl font-semibold text-[#1CA0C6]">
                   {post.title}
                 </h2>
-                <p className="text-gray-700 mt-1">{post.description}</p>
-                <span className="text-gray-500 text-sm mt-2 block">
+                <p className="text-gray-700 mt-1 sm:mt-2 text-sm sm:text-base">
+                  {post.description}
+                </p>
+                <span className="text-gray-500 text-xs sm:text-sm mt-2 block">
                   {new Date(post.date).toLocaleDateString("pt-BR")}
                 </span>
               </div>
@@ -150,44 +162,44 @@ export default function MuralPage() {
               onClick={() => setOpen(false)}
             />
 
-            <div className="fixed inset-0 z-50 flex justify-center items-center">
+            <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-white border border-gray-300 shadow-2xl rounded-2xl p-6 w-[90%] max-w-md"
+                className="bg-white border border-gray-300 shadow-2xl rounded-2xl p-5 sm:p-6 w-full max-w-md"
               >
-                <h2 className="text-2xl font-bold text-[#1CA0C6] mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1CA0C6] mb-4">
                   Criar novo aviso
                 </h2>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 sm:gap-4">
                   <input
                     type="text"
                     placeholder="Título"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
-                    className="w-full p-3 bg-gray-100 border border-gray-300 rounded-xl"
+                    className="w-full p-3 bg-gray-100 border border-gray-300 rounded-xl text-base focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   />
 
                   <textarea
                     placeholder="Descrição"
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
-                    className="w-full p-3 bg-gray-100 border border-gray-300 rounded-xl h-24"
+                    className="w-full p-3 bg-gray-100 border border-gray-300 rounded-xl h-24 sm:h-28 text-base resize-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
                   />
                 </div>
 
-                <div className="flex justify-end gap-3 mt-6">
+                <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 sm:gap-3 mt-5 sm:mt-6">
                   <button
                     onClick={() => setOpen(false)}
-                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+                    className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 active:bg-gray-400 transition touch-manipulation"
                   >
                     Cancelar
                   </button>
 
                   <button
                     onClick={handleCreatePost}
-                    className="px-4 py-2 rounded-lg bg-[#1CA0C6] hover:bg-[#1785a5] text-white transition"
+                    className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg bg-[#1CA0C6] hover:bg-[#1785a5] active:bg-[#156b85] text-white transition touch-manipulation"
                   >
                     Criar aviso
                   </button>
