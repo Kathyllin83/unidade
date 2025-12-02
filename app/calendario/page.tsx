@@ -5,8 +5,6 @@ import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function CalendarioPage() {
-  const supabase = createClientComponentClient();
-
   const [userName, setUserName] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -26,6 +24,7 @@ export default function CalendarioPage() {
 
   useEffect(() => {
     async function loadUser() {
+      const supabase = createClientComponentClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();

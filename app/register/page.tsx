@@ -7,7 +7,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +21,7 @@ export default function RegisterPage() {
     setLoading(true);
     setErrorMessage("");
 
+    const supabase = createClientComponentClient();
     // 🔥 Registro no Supabase
     const { error } = await supabase.auth.signUp({
       email,

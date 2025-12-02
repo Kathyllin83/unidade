@@ -5,7 +5,6 @@ import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function FaltasPage() {
-  const supabase = createClientComponentClient();
   const [userName, setUserName] = useState("");
 
   const faltas = [
@@ -17,6 +16,7 @@ export default function FaltasPage() {
 
   useEffect(() => {
     async function loadUser() {
+      const supabase = createClientComponentClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();

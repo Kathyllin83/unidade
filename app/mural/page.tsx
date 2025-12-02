@@ -6,8 +6,6 @@ import { motion } from "framer-motion";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function MuralPage() {
-  const supabase = createClientComponentClient();
-
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState("");
 
@@ -31,6 +29,7 @@ export default function MuralPage() {
 
   useEffect(() => {
     async function loadUser() {
+      const supabase = createClientComponentClient();
       const {
         data: { user },
       } = await supabase.auth.getUser();
