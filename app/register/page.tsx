@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function RegisterPage() {
@@ -44,7 +45,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
+    <div className="flex min-h-screen bg-linear-to-br from-blue-100 to-blue-300">
       {/* Área do formulário */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-10 lg:p-20">
         <h1 className="text-4xl font-extrabold mb-6 text-blue-800">
@@ -134,9 +135,11 @@ export default function RegisterPage() {
 
       {/* Imagem lateral */}
       <div className="hidden lg:flex w-1/2 bg-blue-200 items-center justify-center shadow-inner">
-        <img
+        <Image
           src="/img/register.png"
           alt="Registro"
+          width={400}
+          height={400}
           className="w-4/5 drop-shadow-2xl rounded-2xl"
         />
       </div>

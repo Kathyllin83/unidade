@@ -1,4 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Carousel,
   CarouselContent,
@@ -86,9 +88,9 @@ export default async function HomePage() {
       {/* HEADER */}
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-          <a href="/" className="flex items-center">
-            <img src="/img/logo.png" alt="Logo" className="h-8 w-auto" />
-          </a>
+          <Link href="/" className="flex items-center">
+            <Image src="/img/logo.png" alt="Logo" width={32} height={32} className="h-8 w-auto" />
+          </Link>
 
           <div className="flex items-center space-x-4">
             <a href="#" className="text-gray-600 hover:text-blue-600">
@@ -97,12 +99,12 @@ export default async function HomePage() {
             <a href="#" className="text-gray-600 hover:text-blue-600">
               Sobre
             </a>
-            <a
+            <Link
               href="/login"
               className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"
             >
               Acessar
-            </a>
+            </Link>
           </div>
         </nav>
       </header>

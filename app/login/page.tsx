@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function LoginPage() {
@@ -106,10 +107,12 @@ export default function LoginPage() {
       {/* LADO DIREITO — IMAGEM */}
       <div className="hidden lg:flex w-1/2 bg-amber-100 items-center justify-center p-12">
         <div className="text-center">
-          <img
-            src="img/register.png"
+          <Image
+            src="/img/register.png"
             alt="Responsável"
-            className="rounded-xl shadow-lg w-[200px] h-[200px] object-cover"
+            width={200}
+            height={200}
+            className="rounded-xl shadow-lg object-cover"
           />
           <button
             type="button"
