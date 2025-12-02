@@ -6,6 +6,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import CategoryClient from "./CategoryClient";
 
 type Event = {
   id: string;
@@ -17,16 +18,32 @@ type Event = {
 };
 
 async function getEvents() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Supabase credentials missing");
+    return {
+      featuredEvents: [],
+      categoryEvents: [],
+      categories: [
+        "Festividades",
+        "Eventos Esportivos",
+        "Palestras e Oficinas",
+        "Feira de Ciências",
+        "Semana da Matemática",
+      ],
+    };
+  }
+
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const { data: featuredEvents, error: featuredError } = await supabase
+  const { data: featuredEvents } = await supabase
     .from("events")
     .select("*")
     .eq("is_featured", true);
 
-  const { data: categoryEvents, error: categoryError } = await supabase
+  const { data: categoryEvents } = await supabase
     .from("events")
     .select("*")
     .eq("is_featured", false);
@@ -34,14 +51,10 @@ async function getEvents() {
   const categories = [
     "Festividades",
     "Eventos Esportivos",
-    "Palestras e Oficcinas",
+    "Palestras e Oficinas",
     "Feira de Ciências",
+    "Semana da Matemática",
   ];
-
-  if (featuredError || categoryError) {
-    console.error("Erro ao buscar dados:", featuredError || categoryError);
-    return { featuredEvents: [], categoryEvents: [], categories: [] };
-  }
 
   return {
     featuredEvents: (featuredEvents || []) as Event[],
@@ -50,18 +63,17 @@ async function getEvents() {
   };
 }
 
-// Mapa de categorias para imagens locais
 const categoryImages: Record<string, string> = {
   Festividades: "/img/evento1.png",
-  "Eventos Esportivos": "/img/evento1.png",
-  "Palestras e Oficcinas": "/img/evento2.png",
-  "Feira de Ciências": "/img/evento3.png",
+  "Eventos Esportivos": "/img/evento2.jpg",
+  "Palestras e Oficinas": "/img/evento3.png",
+  "Feira de Ciências": "/img/evento4.png",
+  "Semana da Matemática": "/img/evento1.png",
 };
 
 export default async function HomePage() {
   const { categoryEvents, categories } = await getEvents();
 
-  // Destaques fixos com imagens locais
   const featuredImages = [
     { id: "img1", path: "/img/img1.png", title: "Evento 1" },
     { id: "img2", path: "/img/img2.png", title: "Evento 2" },
@@ -71,16 +83,13 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
-      {/* Header Fixo (sticky) */}
+      {/* HEADER */}
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
           <a href="/" className="flex items-center">
-            <img
-              src="/img/logo.png"
-              alt="Logo Unidade"
-              className="h-8 w-auto"
-            />
+            <img src="/img/logo.png" alt="Logo" className="h-8 w-auto" />
           </a>
+
           <div className="flex items-center space-x-4">
             <a href="#" className="text-gray-600 hover:text-blue-600">
               Início
@@ -99,19 +108,14 @@ export default async function HomePage() {
       </header>
 
       <main className="py-12">
-        {/* Seção Destaques */}
+        {/* DESTAQUES */}
         <section className="mb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-6 text-center">Destaques</h2>
           </div>
+
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Carousel
-              opts={{
-                align: "center",
-                loop: true,
-              }}
-              className="w-full"
-            >
+            <Carousel opts={{ align: "center", loop: true }} className="w-full">
               <CarouselContent className="-ml-4">
                 {featuredImages.map((image) => (
                   <CarouselItem
@@ -122,73 +126,24 @@ export default async function HomePage() {
                       <div
                         className="h-64 lg:h-80 rounded-xl bg-cover bg-center shadow-lg"
                         style={{ backgroundImage: `url(${image.path})` }}
-                        title={image.title}
                       />
                     </div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
+
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
           </div>
         </section>
 
-        {/* Seção Categorias */}
-        <section className="mb-16 container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-6 text-center">
-            Navegue por categoria
-          </h2>
-          <div className="flex justify-center flex-wrap gap-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                className="px-6 py-2 border border-blue-600 text-blue-600 rounded-full font-medium hover:bg-blue-50 transition-colors"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Seção Eventos por Categoria */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categoryEvents.map((event) => {
-              const localImage = event.category
-                ? categoryImages[event.category]
-                : null;
-
-              return (
-                <div
-                  key={event.id}
-                  className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <img
-                    src={
-                      localImage ||
-                      event.image_url ||
-                      "https://via.placeholder.com/400x200.png?text=Evento"
-                    }
-                    alt={event.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="text-xl font-semibold mb-2">
-                      {event.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {event.description}
-                    </p>
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                      {event.category}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        {/* CLIENT COMPONENT = FILTROS + LISTAGEM */}
+        <CategoryClient
+          events={categoryEvents}
+          categories={categories}
+          categoryImages={categoryImages}
+        />
       </main>
     </div>
   );

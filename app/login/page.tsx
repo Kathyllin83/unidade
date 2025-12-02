@@ -1,37 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function LoginPage() {
-  const supabase = createClientComponentClient();
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setLoading(true);
+    setErrorMessage("");
 
-    const { error: loginError } = await supabase.auth.signInWithPassword({
+    const supabase = createClientComponentClient();
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (loginError) {
-      setError(loginError.message);
+    if (error) {
+      setErrorMessage("Email ou senha incorretos.");
+      setLoading(false);
       return;
     }
 
-    router.push("/"); // redireciona para home
+    router.push("/calendario");
   }
 
   return (
     <div className="flex min-h-screen">
-      {/* Coluna esquerda: formulário */}
+      {/* LADO ESQUERDO — FORMULÁRIO */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-20 py-16">
         <h1 className="text-3xl font-bold mb-4">Entrar</h1>
         <p className="text-gray-600 mb-8">Acesse sua conta para continuar.</p>
@@ -40,6 +44,7 @@ export default function LoginPage() {
           onSubmit={handleLogin}
           className="flex flex-col gap-5 w-full max-w-md"
         >
+          {/* INPUT EMAIL */}
           <div>
             <label className="block mb-1 text-sm font-medium">Email</label>
             <input
@@ -48,10 +53,12 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Digite seu email..."
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100 focus:bg-white focus:border-black outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100 
+                         focus:bg-white focus:border-black outline-none"
             />
           </div>
 
+          {/* INPUT SENHA */}
           <div>
             <label className="block mb-1 text-sm font-medium">Senha</label>
             <input
@@ -60,22 +67,29 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Digite sua senha..."
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100 focus:bg-white focus:border-black outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100 
+                         focus:bg-white focus:border-black outline-none"
             />
           </div>
 
-          {error && <p className="text-red-600 text-sm">{error}</p>}
+          {errorMessage && (
+            <p className="text-red-600 text-sm">{errorMessage}</p>
+          )}
 
+          {/* BOTÃO ENTRAR */}
           <button
             type="submit"
-            className="w-full py-3 bg-yellow-400 text-white font-semibold rounded-xl hover:bg-yellow-500 transition"
+            className="w-full py-3 bg-yellow-400 text-white font-semibold rounded-xl 
+                       hover:bg-yellow-500 transition"
           >
-            Entrar
+            {loading ? "Entrando..." : "Entrar"}
           </button>
 
+          {/* LINK CRIAR CONTA */}
           <Link
             href="/register"
-            className="w-full py-3 border border-gray-300 text-black rounded-xl text-center font-semibold hover:bg-gray-100 transition"
+            className="w-full py-3 border border-gray-300 text-black rounded-xl 
+                       text-center font-semibold hover:bg-gray-100 transition"
           >
             Criar conta
           </Link>
@@ -89,18 +103,20 @@ export default function LoginPage() {
         </form>
       </div>
 
-      <div className="hidden lg:flex w-1/2 bg-amber-50 items-center justify-center p-12">
+      {/* LADO DIREITO — IMAGEM */}
+      <div className="hidden lg:flex w-1/2 bg-amber-100 items-center justify-center p-12">
         <div className="text-center">
           <img
-            src="img/login.png" 
-            alt="Professor"
+            src="img/register.png"
+            alt="Responsável"
             className="rounded-xl shadow-lg w-[200px] h-[200px] object-cover"
           />
           <button
             type="button"
-            className="mt-6 py-3 px-8 bg-white text-gray-800 font-medium rounded-xl shadow-md hover:bg-gray-100 transition"
+            className="mt-6 py-3 px-8 bg-white text-gray-800 font-medium 
+                       rounded-xl shadow-md hover:bg-gray-100 transition"
           >
-            Acessar como professor
+            Acessar como responsável
           </button>
         </div>
       </div>
