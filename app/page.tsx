@@ -84,6 +84,7 @@ export default async function HomePage() {
   ];
 
   return (
+
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* HEADER */}
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
@@ -99,12 +100,12 @@ export default async function HomePage() {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <a href="#" className="text-gray-600 hover:text-blue-600">
+            <Link href="/" className="text-gray-600 hover:text-blue-600">
               Início
-            </a>
-            <a href="#" className="text-gray-600 hover:text-blue-600">
+            </Link>
+            <Link href="/sobre" className="text-gray-600 hover:text-blue-600">
               Sobre
-            </a>
+            </Link>
             <Link
               href="/login"
               className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors"

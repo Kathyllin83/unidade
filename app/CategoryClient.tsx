@@ -9,6 +9,8 @@ type Event = {
   image_url: string | null;
   is_featured: boolean | null;
   category: string | null;
+  date?: string | null;
+  time?: string | null;
 };
 
 export default function CategoryClient({
@@ -23,10 +25,17 @@ export default function CategoryClient({
   const [selectedCategory, setSelectedCategory] = useState<string>("Todos");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
+  // Adiciona data e horário fake para exibição
+  const addFakeDateTime = (event: Event, idx: number): Event => ({
+    ...event,
+    date: event.date || `2025-12-${(idx % 28 + 1).toString().padStart(2, "0")}`,
+    time: event.time || `${(8 + (idx % 8)).toString().padStart(2, "0")}:00`,
+  });
+
   const filteredEvents =
     selectedCategory === "Todos"
-      ? events
-      : events.filter((e) => e.category === selectedCategory);
+      ? events.map(addFakeDateTime)
+      : events.filter((e) => e.category === selectedCategory).map(addFakeDateTime);
 
   return (
     <>
@@ -87,8 +96,15 @@ export default function CategoryClient({
                 />
 
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-
+                  <h3 className="text-xl font-semibold mb-1">{event.title}</h3>
+                  {event.date && (
+                    <div className="text-xs text-gray-500 mb-1">
+                      <span>Data: {new Date(event.date).toLocaleDateString("pt-BR")}</span>
+                      {event.time && (
+                        <span> • Horário: {event.time}</span>
+                      )}
+                    </div>
+                  )}
                   <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                     {event.description}
                   </p>
@@ -132,7 +148,14 @@ export default function CategoryClient({
             />
 
             <h2 className="text-2xl font-bold mb-2">{selectedEvent.title}</h2>
-
+            {selectedEvent.date && (
+              <div className="text-sm text-gray-500 mb-2">
+                <span>Data: {new Date(selectedEvent.date).toLocaleDateString("pt-BR")}</span>
+                {selectedEvent.time && (
+                  <span> • Horário: {selectedEvent.time}</span>
+                )}
+              </div>
+            )}
             <p className="text-gray-700 mb-4">{selectedEvent.description}</p>
 
             <span className="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
