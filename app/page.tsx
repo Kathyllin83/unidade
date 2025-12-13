@@ -84,7 +84,6 @@ export default async function HomePage() {
   ];
 
   return (
-
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* HEADER */}
       <header className="sticky top-0 z-10 w-full bg-white shadow-sm border-b border-gray-200">
